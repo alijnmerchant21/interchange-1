@@ -30,6 +30,7 @@ export interface SellOrderPacketData {
   amount: number
   priceDenom: string
   price: number
+  seller: string
 }
 
 /** SellOrderPacketAck defines a struct for the packet acknowledgment */
@@ -44,6 +45,7 @@ export interface BuyOrderPacketData {
   amount: number
   priceDenom: string
   price: number
+  buyer: string
 }
 
 /** BuyOrderPacketAck defines a struct for the packet acknowledgment */
@@ -307,7 +309,7 @@ export const CreatePairPacketAck = {
   }
 }
 
-const baseSellOrderPacketData: object = { amountDenom: '', amount: 0, priceDenom: '', price: 0 }
+const baseSellOrderPacketData: object = { amountDenom: '', amount: 0, priceDenom: '', price: 0, seller: '' }
 
 export const SellOrderPacketData = {
   encode(message: SellOrderPacketData, writer: Writer = Writer.create()): Writer {
@@ -322,6 +324,9 @@ export const SellOrderPacketData = {
     }
     if (message.price !== 0) {
       writer.uint32(32).int32(message.price)
+    }
+    if (message.seller !== '') {
+      writer.uint32(42).string(message.seller)
     }
     return writer
   },
@@ -344,6 +349,9 @@ export const SellOrderPacketData = {
           break
         case 4:
           message.price = reader.int32()
+          break
+        case 5:
+          message.seller = reader.string()
           break
         default:
           reader.skipType(tag & 7)
@@ -375,6 +383,11 @@ export const SellOrderPacketData = {
     } else {
       message.price = 0
     }
+    if (object.seller !== undefined && object.seller !== null) {
+      message.seller = String(object.seller)
+    } else {
+      message.seller = ''
+    }
     return message
   },
 
@@ -384,6 +397,7 @@ export const SellOrderPacketData = {
     message.amount !== undefined && (obj.amount = message.amount)
     message.priceDenom !== undefined && (obj.priceDenom = message.priceDenom)
     message.price !== undefined && (obj.price = message.price)
+    message.seller !== undefined && (obj.seller = message.seller)
     return obj
   },
 
@@ -408,6 +422,11 @@ export const SellOrderPacketData = {
       message.price = object.price
     } else {
       message.price = 0
+    }
+    if (object.seller !== undefined && object.seller !== null) {
+      message.seller = object.seller
+    } else {
+      message.seller = ''
     }
     return message
   }
@@ -485,7 +504,7 @@ export const SellOrderPacketAck = {
   }
 }
 
-const baseBuyOrderPacketData: object = { amountDenom: '', amount: 0, priceDenom: '', price: 0 }
+const baseBuyOrderPacketData: object = { amountDenom: '', amount: 0, priceDenom: '', price: 0, buyer: '' }
 
 export const BuyOrderPacketData = {
   encode(message: BuyOrderPacketData, writer: Writer = Writer.create()): Writer {
@@ -500,6 +519,9 @@ export const BuyOrderPacketData = {
     }
     if (message.price !== 0) {
       writer.uint32(32).int32(message.price)
+    }
+    if (message.buyer !== '') {
+      writer.uint32(42).string(message.buyer)
     }
     return writer
   },
@@ -522,6 +544,9 @@ export const BuyOrderPacketData = {
           break
         case 4:
           message.price = reader.int32()
+          break
+        case 5:
+          message.buyer = reader.string()
           break
         default:
           reader.skipType(tag & 7)
@@ -553,6 +578,11 @@ export const BuyOrderPacketData = {
     } else {
       message.price = 0
     }
+    if (object.buyer !== undefined && object.buyer !== null) {
+      message.buyer = String(object.buyer)
+    } else {
+      message.buyer = ''
+    }
     return message
   },
 
@@ -562,6 +592,7 @@ export const BuyOrderPacketData = {
     message.amount !== undefined && (obj.amount = message.amount)
     message.priceDenom !== undefined && (obj.priceDenom = message.priceDenom)
     message.price !== undefined && (obj.price = message.price)
+    message.buyer !== undefined && (obj.buyer = message.buyer)
     return obj
   },
 
@@ -586,6 +617,11 @@ export const BuyOrderPacketData = {
       message.price = object.price
     } else {
       message.price = 0
+    }
+    if (object.buyer !== undefined && object.buyer !== null) {
+      message.buyer = object.buyer
+    } else {
+      message.buyer = ''
     }
     return message
   }

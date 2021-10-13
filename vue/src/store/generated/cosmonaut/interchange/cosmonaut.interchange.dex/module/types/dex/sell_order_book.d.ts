@@ -1,9 +1,11 @@
+import { OrderBook } from '../dex/order';
 import { Writer, Reader } from 'protobufjs/minimal';
 export declare const protobufPackage = "cosmonaut.interchange.dex";
 export interface SellOrderBook {
     index: string;
     amountDenom: string;
     priceDenom: string;
+    book: OrderBook | undefined;
 }
 export declare const SellOrderBook: {
     encode(message: SellOrderBook, writer?: Writer): Writer;

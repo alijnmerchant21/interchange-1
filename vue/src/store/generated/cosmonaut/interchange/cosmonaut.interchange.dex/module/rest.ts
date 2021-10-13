@@ -13,6 +13,7 @@ export interface DexBuyOrderBook {
   index?: string;
   amountDenom?: string;
   priceDenom?: string;
+  book?: DexOrderBook;
 }
 
 export interface DexDenomTrace {
@@ -31,6 +32,24 @@ export type DexMsgSendBuyOrderResponse = object;
 export type DexMsgSendCreatePairResponse = object;
 
 export type DexMsgSendSellOrderResponse = object;
+
+export interface DexOrder {
+  /** @format int32 */
+  id?: number;
+  creator?: string;
+
+  /** @format int32 */
+  amount?: number;
+
+  /** @format int32 */
+  price?: number;
+}
+
+export interface DexOrderBook {
+  /** @format int32 */
+  idCount?: number;
+  orders?: DexOrder[];
+}
 
 export interface DexQueryAllBuyOrderBookResponse {
   buyOrderBook?: DexBuyOrderBook[];
@@ -93,6 +112,7 @@ export interface DexSellOrderBook {
   index?: string;
   amountDenom?: string;
   priceDenom?: string;
+  book?: DexOrderBook;
 }
 
 export interface ProtobufAny {

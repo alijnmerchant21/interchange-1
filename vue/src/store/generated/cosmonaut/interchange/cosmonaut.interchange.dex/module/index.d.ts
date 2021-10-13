@@ -1,11 +1,11 @@
 import { StdFee } from "@cosmjs/launchpad";
 import { OfflineSigner, EncodeObject } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
+import { MsgSendBuyOrder } from "./types/dex/tx";
+import { MsgCancelBuyOrder } from "./types/dex/tx";
+import { MsgSendCreatePair } from "./types/dex/tx";
 import { MsgSendSellOrder } from "./types/dex/tx";
 import { MsgCancelSellOrder } from "./types/dex/tx";
-import { MsgSendCreatePair } from "./types/dex/tx";
-import { MsgCancelBuyOrder } from "./types/dex/tx";
-import { MsgSendBuyOrder } from "./types/dex/tx";
 export declare const MissingWalletError: Error;
 interface TxClientOptions {
     addr: string;
@@ -16,11 +16,11 @@ interface SignAndBroadcastOptions {
 }
 declare const txClient: (wallet: OfflineSigner, { addr: addr }?: TxClientOptions) => Promise<{
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }?: SignAndBroadcastOptions) => Promise<import("@cosmjs/stargate").BroadcastTxResponse>;
+    msgSendBuyOrder: (data: MsgSendBuyOrder) => EncodeObject;
+    msgCancelBuyOrder: (data: MsgCancelBuyOrder) => EncodeObject;
+    msgSendCreatePair: (data: MsgSendCreatePair) => EncodeObject;
     msgSendSellOrder: (data: MsgSendSellOrder) => EncodeObject;
     msgCancelSellOrder: (data: MsgCancelSellOrder) => EncodeObject;
-    msgSendCreatePair: (data: MsgSendCreatePair) => EncodeObject;
-    msgCancelBuyOrder: (data: MsgCancelBuyOrder) => EncodeObject;
-    msgSendBuyOrder: (data: MsgSendBuyOrder) => EncodeObject;
 }>;
 interface QueryClientOptions {
     addr: string;

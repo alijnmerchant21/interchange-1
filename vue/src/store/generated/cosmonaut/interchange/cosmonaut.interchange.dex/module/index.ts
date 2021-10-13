@@ -4,19 +4,19 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
+import { MsgSendBuyOrder } from "./types/dex/tx";
+import { MsgCancelBuyOrder } from "./types/dex/tx";
+import { MsgSendCreatePair } from "./types/dex/tx";
 import { MsgSendSellOrder } from "./types/dex/tx";
 import { MsgCancelSellOrder } from "./types/dex/tx";
-import { MsgSendCreatePair } from "./types/dex/tx";
-import { MsgCancelBuyOrder } from "./types/dex/tx";
-import { MsgSendBuyOrder } from "./types/dex/tx";
 
 
 const types = [
+  ["/cosmonaut.interchange.dex.MsgSendBuyOrder", MsgSendBuyOrder],
+  ["/cosmonaut.interchange.dex.MsgCancelBuyOrder", MsgCancelBuyOrder],
+  ["/cosmonaut.interchange.dex.MsgSendCreatePair", MsgSendCreatePair],
   ["/cosmonaut.interchange.dex.MsgSendSellOrder", MsgSendSellOrder],
   ["/cosmonaut.interchange.dex.MsgCancelSellOrder", MsgCancelSellOrder],
-  ["/cosmonaut.interchange.dex.MsgSendCreatePair", MsgSendCreatePair],
-  ["/cosmonaut.interchange.dex.MsgCancelBuyOrder", MsgCancelBuyOrder],
-  ["/cosmonaut.interchange.dex.MsgSendBuyOrder", MsgSendBuyOrder],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -45,11 +45,11 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
+    msgSendBuyOrder: (data: MsgSendBuyOrder): EncodeObject => ({ typeUrl: "/cosmonaut.interchange.dex.MsgSendBuyOrder", value: data }),
+    msgCancelBuyOrder: (data: MsgCancelBuyOrder): EncodeObject => ({ typeUrl: "/cosmonaut.interchange.dex.MsgCancelBuyOrder", value: data }),
+    msgSendCreatePair: (data: MsgSendCreatePair): EncodeObject => ({ typeUrl: "/cosmonaut.interchange.dex.MsgSendCreatePair", value: data }),
     msgSendSellOrder: (data: MsgSendSellOrder): EncodeObject => ({ typeUrl: "/cosmonaut.interchange.dex.MsgSendSellOrder", value: data }),
     msgCancelSellOrder: (data: MsgCancelSellOrder): EncodeObject => ({ typeUrl: "/cosmonaut.interchange.dex.MsgCancelSellOrder", value: data }),
-    msgSendCreatePair: (data: MsgSendCreatePair): EncodeObject => ({ typeUrl: "/cosmonaut.interchange.dex.MsgSendCreatePair", value: data }),
-    msgCancelBuyOrder: (data: MsgCancelBuyOrder): EncodeObject => ({ typeUrl: "/cosmonaut.interchange.dex.MsgCancelBuyOrder", value: data }),
-    msgSendBuyOrder: (data: MsgSendBuyOrder): EncodeObject => ({ typeUrl: "/cosmonaut.interchange.dex.MsgSendBuyOrder", value: data }),
     
   };
 };
