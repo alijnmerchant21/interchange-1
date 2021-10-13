@@ -18,7 +18,7 @@ func (k msgServer) SendSellOrder(goCtx context.Context, msg *types.MsgSendSellOr
 		return &types.MsgSendSellOrderResponse{}, errors.New("the pair doesn't exist")
 	}
 	// Get sender's address
-	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	sender, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return &types.MsgSendSellOrderResponse{}, err
 	}
@@ -29,7 +29,7 @@ func (k msgServer) SendSellOrder(goCtx context.Context, msg *types.MsgSendSellOr
 	// Save the voucher received on the other chain, to have the ability to resolve it into the original denom
 	k.SaveVoucherDenom(ctx, msg.Port, msg.ChannelID, msg.AmountDenom)
 	var packet types.SellOrderPacketData
-	packet.Seller = msg.Sender
+	packet.Seller = msg.Creator
 	packet.AmountDenom = msg.AmountDenom
 	packet.Amount = msg.Amount
 	packet.PriceDenom = msg.PriceDenom
